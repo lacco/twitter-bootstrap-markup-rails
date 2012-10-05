@@ -126,12 +126,12 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
 
     it "should pass button_options to its buttons" do
       build_bootstrap_button_dropdown(:split => true, :button_options => {:type => "btn-success"}) do |d|
-        d.bootstrap_button "Button Text", "#", :class => "foo"
+        d.bootstrap_button "Button Text", "#", :class => "foo", :type => "btn-large"
         d.link_to "This", "#"
       end
 
       output_buffer.should have_tag('div.btn-group') do |div|
-        div.should have_tag('a.foo.btn-success')
+        div.should have_tag('a.foo.btn-success.btn-large')
         div.should have_tag('a.dropdown-toggle.btn-success')
       end
     end

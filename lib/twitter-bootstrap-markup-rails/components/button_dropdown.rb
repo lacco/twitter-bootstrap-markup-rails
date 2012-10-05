@@ -39,7 +39,7 @@ module Twitter::Bootstrap::Markup::Rails::Components
       html = ''
 
       if @elements.size > 0
-        dropdown = @elements.shift
+        dropdown = @elements.shift.component
         dropdown.options.merge!(options[:button_options])
         dropdown.options.merge!(:dropdown => !options[:split])
 

@@ -2,6 +2,8 @@
 
 module Twitter::Bootstrap::Markup::Rails::Helpers
   module ButtonHelpers
+    include RenderComponentHelper
+
     # Render a bootstrap button
     #
     # @param [String] text for the button face
@@ -33,7 +35,9 @@ module Twitter::Bootstrap::Markup::Rails::Helpers
         options[:link] = args.shift
       end
 
-      Twitter::Bootstrap::Markup::Rails::Components::Button.new(options).to_s
+      bootstrap_render_component options do
+        Twitter::Bootstrap::Markup::Rails::Components::Button.new(options)
+      end
     end
 
     # Render a dropdown button

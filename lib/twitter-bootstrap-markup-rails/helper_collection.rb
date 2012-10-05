@@ -41,15 +41,19 @@ module Twitter::Bootstrap::Markup::Rails
       @block   = block
     end
 
-    def to_s
+    def component
       args = @args
-      args << @options
+      args << @options.merge(:html => false)
 
       if @block
-        @view.send(@method, *args, &@block).html_safe
+        @view.send(@method, *args, &@block)
       else
-        @view.send(@method, *args).html_safe
+        @view.send(@method, *args)
       end
+    end
+
+    def to_s
+      component.to_s.html_safe
     end
 
   end
