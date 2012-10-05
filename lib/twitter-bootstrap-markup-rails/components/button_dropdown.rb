@@ -8,12 +8,11 @@ module Twitter::Bootstrap::Markup::Rails::Components
     end
 
     def to_s
-      div_options = {:class => build_class}
-      output_buffer << content_tag(:div, div_options.reverse_merge(options[:html_options])) do
+      output_buffer << content_tag(:div, options[:html_options]) do
         html=''
         html << build_dropdown
 
-        html << content_tag(:ul, build_menu_html_options) do
+        html << content_tag(:ul, options[:menu_html_options]) do
           menu = ''
           @elements.each do |e|
             menu << content_tag(:li, e.to_s)
@@ -28,25 +27,12 @@ module Twitter::Bootstrap::Markup::Rails::Components
 
     private
     def default_options
-      {
-        :html_options => {},
+      option({
+        :html_options => option({:class => option("btn-group")}),
         :split => false,
         :button_options => {},
-        :menu_html_options => {}
-      }
-    end
-
-    def build_class
-      classes = %w(btn-group)
-      classes << options[:html_options][:class] if options[:html_options][:class]
-      classes.join(" ")
-    end
-
-    def build_menu_html_options
-      classes = %w(dropdown-menu)
-      classes << options[:menu_html_options][:class] if options[:menu_html_options][:class]
-
-      options[:menu_html_options].merge(:class => classes.join(" "))
+        :menu_html_options => option({:class => option("dropdown-menu")})
+      })
     end
 
     def build_dropdown
@@ -55,7 +41,7 @@ module Twitter::Bootstrap::Markup::Rails::Components
       if @elements.size > 0
         dropdown = @elements.shift
         dropdown.options.merge!(options[:button_options])
-        dropdown.options[:dropdown] = !options[:split]
+        dropdown.options.merge!(:dropdown => !options[:split])
 
         html << dropdown.to_s
 

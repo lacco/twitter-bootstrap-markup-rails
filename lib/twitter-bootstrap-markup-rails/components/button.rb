@@ -14,32 +14,23 @@ module Twitter::Bootstrap::Markup::Rails::Components
 
     private
     def default_options
-      {
+      option({
         :text         => nil,
         :link         => "#",
-        :class        => "btn",
-        :type         => [],
+        :class        => option("btn"),
+        :type         => option(""),
         :disabled     => false,
         :icon_white   => false,
         :dropdown     => false,
         :id           => nil,
         :html_options => {}
-      }
+      })
     end
 
     def build_class
-      classes = [options[:class]]
-
-      if options[:type].is_a?(Array)
-        classes = classes | options[:type].map { |c| c.to_s }
-      else
-        classes << options[:type]
-      end
-
-      classes << 'dropdown-toggle' if options[:dropdown]
-      classes << 'disabled' if options[:disabled]
-
-      classes.join(" ")
+      options[:class].merge!(options[:type])
+      options[:class].merge!("dropdown-toggle") if options[:dropdown]
+      options[:class].merge!("disabled") if options[:disabled]
     end
 
     def build_icon
@@ -53,7 +44,9 @@ module Twitter::Bootstrap::Markup::Rails::Components
     end
 
     def build_tag_options
-      ops = { :href => build_link, :class => build_class }
+      build_class
+
+      ops = { :href => build_link, :class => options[:class] }
       ops[:"data-toggle"] = 'dropdown' if options[:dropdown]
       ops[:id] = options[:id] if options[:id]
       ops.reverse_merge(options[:html_options])

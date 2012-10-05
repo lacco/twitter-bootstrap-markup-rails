@@ -7,11 +7,19 @@ module Twitter::Bootstrap::Markup::Rails::Components
 
     def initialize(*args)
       @output_buffer = ""
-      @options = args.extract_options!.reverse_merge(default_options)
+      @options = default_options.merge!(args.extract_options!)
     end
 
     def to_s
       @output_buffer.to_s.html_safe
+    end
+
+    def option(object)
+      case object
+        when String, Array then Twitter::Bootstrap::Markup::Rails::OptionsList.new(object)
+        when Hash then Twitter::Bootstrap::Markup::Rails::OptionsHash.new(object)
+        else raise "Unknown option class for #{object.inspect}"
+      end
     end
   end
 end
