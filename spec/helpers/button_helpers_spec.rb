@@ -91,6 +91,19 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
       end
     end
 
+    it "should create a normal button when called with only one button" do
+      build_bootstrap_button_dropdown do |d|
+        d.bootstrap_button "Button Text", "#"
+      end
+
+      output_buffer.should have_tag('div.btn-group') do |div|
+        div.should have_tag('a.btn')
+        div.should_not have_tag('a.dropdown-toggle')
+        div.should_not have_tag('a.caret')
+        div.should_not have_tag('ul.dropdown-menu')
+      end
+    end
+
     it "should properly merge html_options into the container div" do
       build_bootstrap_button_dropdown(:html_options => {:id => "foo"}) do |d|
         d.bootstrap_button "Button Text", "#"
@@ -121,6 +134,19 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
         # Ensure that a.foo and a.dropdown-toggle are two different links
         div.should_not have_tag('a.foo.dropdown-toggle')
         div.should have_tag('ul.dropdown-menu a')
+      end
+    end
+
+    it "should build a normal button if split=true with only 1 element" do
+      build_bootstrap_button_dropdown(:split => true) do |d|
+        d.bootstrap_button "Button Text", "#", :class => "foo"
+      end
+
+      output_buffer.should have_tag('div.btn-group') do |div|
+        div.should have_tag('a.foo')
+        div.should_not have_tag('a.dropdown-toggle')
+        div.should_not have_tag('a.caret')
+        div.should_not have_tag('ul.dropdown-menu')
       end
     end
 

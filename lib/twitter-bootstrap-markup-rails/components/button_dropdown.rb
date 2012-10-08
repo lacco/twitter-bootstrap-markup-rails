@@ -12,16 +12,19 @@ module Twitter::Bootstrap::Markup::Rails::Components
         html=''
         html << build_dropdown
 
-        html << content_tag(:ul, options[:menu_html_options]) do
-          menu = ''
-          @elements.each do |e|
-            menu << content_tag(:li, e.to_s)
+        if build_dropdown_menu?
+          html << content_tag(:ul, options[:menu_html_options]) do
+            menu = ''
+            @elements.each do |e|
+              menu << content_tag(:li, e.to_s)
+            end
+            menu.html_safe
           end
-          menu.html_safe
         end
 
         html.html_safe
       end
+
       super
     end
 
@@ -39,19 +42,31 @@ module Twitter::Bootstrap::Markup::Rails::Components
       html = ''
 
       if @elements.size > 0
+        caret_btn = "".html_safe
+
         dropdown = @elements.shift.component
         dropdown.options.merge!(options[:button_options])
-        dropdown.options.merge!(:dropdown => !options[:split])
 
-        html << dropdown.to_s
-
-        if options[:split]
-          caret = Button.new({:dropdown => true}.merge(options[:button_options]))
-          html << caret.to_s
+        if build_dropdown_menu?
+          if build_split?
+            caret_btn = Button.new({:dropdown => true}.merge(options[:button_options]))
+          else
+            dropdown.options.merge!(:dropdown => true)
+          end
         end
+
+        html << dropdown.to_s << caret_btn.to_s
       end
 
       html
+    end
+
+    def build_dropdown_menu?
+      @elements.size > 0
+    end
+
+    def build_split?
+      options[:split]
     end
   end
 end
