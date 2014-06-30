@@ -3,6 +3,7 @@ require 'spec_helper'
 
 describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
   include BootstrapSpecHelper
+  include Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers
   include BootstrapButtonMacros
 
   describe "#bootstrap_button" do
@@ -12,64 +13,64 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
 
     it "should create a button with the btn class" do
       concat bootstrap_button("Text", "#")
-      output_buffer.should have_tag('a.btn')
+      expect(output_buffer).to have_tag('a.btn')
     end
 
     it "should have text" do
       concat bootstrap_button("Text", "#")
-      output_buffer.should have_tag('a', /Text/)
+      expect(output_buffer).to have_tag('a', /Text/)
     end
 
     it "should link to the specified url" do
       concat bootstrap_button("Text", "http://example.test")
-      output_buffer.should have_tag("a[href='http://example.test']")
+      expect(output_buffer).to have_tag("a[href='http://example.test']")
     end
 
     it "should have disabled class when :disabled is true" do
       concat bootstrap_button("Text", "#", :disabled => true)
-      output_buffer.should have_tag("a.disabled")
+      expect(output_buffer).to have_tag("a.disabled")
     end
 
     it "should add an additional class when :type is a string" do
       concat bootstrap_button("Text", "#", :type => 'test')
-      output_buffer.should have_tag("a.test")
+      expect(output_buffer).to have_tag("a.test")
     end
 
     it "should add additional classes when :type is an array" do
       concat bootstrap_button("Text", "#", :type => ['test1', 'test2'])
-      output_buffer.should have_tag("a.test1")
-      output_buffer.should have_tag("a.test2")
+      expect(output_buffer).to have_tag("a.test1")
+      expect(output_buffer).to have_tag("a.test2")
     end
 
     it "should add an icon when :icon is specified" do
       concat bootstrap_button("Text", "#", :icon => 'icon-search')
-      output_buffer.should have_tag("a.btn i.icon-search")
+      expect(output_buffer).to have_tag("a.btn i.icon-search")
     end
 
     it "should add a white icon when :icon_white is true" do
       concat bootstrap_button("Text", "#", :icon => 'icon-search', :icon_white => true)
-      output_buffer.should have_tag("a.btn i.icon-search")
-      output_buffer.should have_tag("a.btn i.icon-white")
+      expect(output_buffer).to have_tag("a.btn i.icon-search")
+      expect(output_buffer).to have_tag("a.btn i.icon-white")
     end
 
     it "should add an id when :id is specified" do
       concat bootstrap_button("Text", "#", :id => "foo")
-      output_buffer.should have_tag("a#foo")
+      expect(output_buffer).to have_tag("a#foo")
     end
 
     it "should add html_options to the resulting a tag when specified" do
       concat bootstrap_button("Text", "#", :html_options => {:target => "_top"})
-      output_buffer.should have_tag("a[target='_top']")
+      expect(output_buffer).to have_tag("a[target='_top']")
     end
 
     it "should accept a block instead of text" do
       concat bootstrap_button("#"){"<span class='content'>Text</span>"}
-      output_buffer.should have_tag("a span.content")
+      expect(output_buffer).to have_tag("a span.content")
     end
 
     it "should set href to '#' if link is not given" do
       concat bootstrap_button
-      output_buffer.should have_tag("a[href='#']")
+      expect(output_buffer).to have_tag("a[href='#']")
     end
   end
 
@@ -85,9 +86,9 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
         d.link_to "Link Text", "#"
       end
 
-      output_buffer.should have_tag('div.btn-group') do |div|
-        div.should have_tag('a.btn')
-        div.should have_tag('ul.dropdown-menu a')
+      expect(output_buffer).to have_tag('div.btn-group') do
+        with_tag('a.btn')
+        with_tag('ul.dropdown-menu a')
       end
     end
 
@@ -96,11 +97,11 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
         d.bootstrap_button "Button Text", "#"
       end
 
-      output_buffer.should have_tag('div.btn-group') do |div|
-        div.should have_tag('a.btn')
-        div.should_not have_tag('a.dropdown-toggle')
-        div.should_not have_tag('a.caret')
-        div.should_not have_tag('ul.dropdown-menu')
+      expect(output_buffer).to have_tag('div.btn-group') do
+        with_tag('a.btn')
+        without_tag('a.dropdown-toggle')
+        without_tag('a.caret')
+        without_tag('ul.dropdown-menu')
       end
     end
 
@@ -110,7 +111,7 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
         d.link_to "This", "#"
       end
 
-      output_buffer.should have_tag('div.btn-group#foo')
+      expect(output_buffer).to have_tag('div.btn-group#foo')
     end
 
     it "should properly add classes from html_options onto the container div" do
@@ -119,7 +120,7 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
         d.link_to "This", "#"
       end
 
-      output_buffer.should have_tag('div.btn-group.foo')
+      expect(output_buffer).to have_tag('div.btn-group.foo')
     end
 
     it "should build a split dropdown if split=true" do
@@ -128,12 +129,12 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
         d.link_to "This", "#"
       end
 
-      output_buffer.should have_tag('div.btn-group') do |div|
-        div.should have_tag('a.foo')
-        div.should have_tag('a.dropdown-toggle')
+      expect(output_buffer).to have_tag('div.btn-group') do
+        with_tag('a.foo')
+        with_tag('a.dropdown-toggle')
         # Ensure that a.foo and a.dropdown-toggle are two different links
-        div.should_not have_tag('a.foo.dropdown-toggle')
-        div.should have_tag('ul.dropdown-menu a')
+        without_tag('a.foo.dropdown-toggle')
+        with_tag('ul.dropdown-menu a')
       end
     end
 
@@ -142,11 +143,11 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
         d.bootstrap_button "Button Text", "#", :class => "foo"
       end
 
-      output_buffer.should have_tag('div.btn-group') do |div|
-        div.should have_tag('a.foo')
-        div.should_not have_tag('a.dropdown-toggle')
-        div.should_not have_tag('a.caret')
-        div.should_not have_tag('ul.dropdown-menu')
+      expect(output_buffer).to have_tag('div.btn-group') do
+        with_tag('a.foo')
+        without_tag('a.dropdown-toggle')
+        without_tag('a.caret')
+        without_tag('ul.dropdown-menu')
       end
     end
 
@@ -156,9 +157,9 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
         d.link_to "This", "#"
       end
 
-      output_buffer.should have_tag('div.btn-group') do |div|
-        div.should have_tag('a.foo.btn-success.btn-large')
-        div.should have_tag('a.dropdown-toggle.btn-success')
+      expect(output_buffer).to have_tag('div.btn-group') do
+        with_tag('a.foo.btn-success.btn-large')
+        with_tag('a.dropdown-toggle.btn-success')
       end
     end
 
@@ -168,8 +169,8 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
         d.link_to "This", "#"
       end
 
-      output_buffer.should have_tag('div.btn-group') do |div|
-        div.should have_tag('ul.dropdown-menu.pull-right')
+      expect(output_buffer).to have_tag('div.btn-group') do
+        with_tag('ul.dropdown-menu.pull-right')
       end
     end
   end

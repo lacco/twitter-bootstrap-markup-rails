@@ -1,10 +1,10 @@
 # encoding: utf-8
 
 require 'rspec-rails'
-require 'rspec_tag_matchers'
+require 'rspec-html-matchers'
 
 RSpec.configure do |config|
-  config.include RspecTagMatchers
+  config.include RSpec::HtmlMatchers
   config.mock_with :rspec
 end
 
@@ -16,6 +16,7 @@ module BootstrapTest
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
     config.active_support.deprecation = :stderr
+    config.eager_load = true
   end
 end
 BootstrapTest::Application.initialize!

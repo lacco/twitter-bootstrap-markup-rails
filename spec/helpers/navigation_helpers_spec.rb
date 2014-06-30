@@ -3,6 +3,7 @@ require 'spec_helper'
 
 describe Twitter::Bootstrap::Markup::Rails::Helpers::NavigationHelpers do
   include BootstrapSpecHelper
+  include Twitter::Bootstrap::Markup::Rails::Helpers::NavigationHelpers
   include BootstrapNavigationMacros
 
   describe "#bootstrap_navigation" do
@@ -16,9 +17,9 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::NavigationHelpers do
         nav.link_to "Nav2", "/link2"
       end
 
-      output_buffer.should have_tag('ul.nav.nav-tabs') do |ul|
-        ul.should have_tag('li[@class="active"] a[@href="/link1"]')
-        ul.should have_tag('li a[@href="/link1"]')
+      expect(output_buffer).to have_tag('ul.nav.nav-tabs') do |ul|
+        with_tag('li[@class="active"] a[@href="/link1"]')
+        with_tag('li a[@href="/link1"]')
       end
     end
 
@@ -28,9 +29,9 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::NavigationHelpers do
         nav.link_to "Nav2", "/link2"
       end
 
-      output_buffer.should have_tag('ul.nav.nav-tabs.testing') do |ul|
-        ul.should have_tag('li[@class="active"] a[@href="/link1"]')
-        ul.should have_tag('li a[@href="/link1"]')
+      expect(output_buffer).to have_tag('ul.nav.nav-tabs.testing') do |ul|
+        with_tag('li[@class="active"] a[@href="/link1"]')
+        with_tag('li a[@href="/link1"]')
       end
     end
 
@@ -40,9 +41,9 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::NavigationHelpers do
         nav.link_to "Nav2", "/link2", :active_nav => true
       end
 
-      output_buffer.should have_tag('ul.nav.nav-pills') do |ul|
-        ul.should have_tag('li a[@href="/link1"]')
-        ul.should have_tag('li[class="active"] a[@href="/link2"]')
+      expect(output_buffer).to have_tag('ul.nav.nav-pills') do |ul|
+        with_tag('li a[@href="/link1"]')
+        with_tag('li[class="active"] a[@href="/link2"]')
       end
     end
 
@@ -52,9 +53,9 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::NavigationHelpers do
         nav.link_to "Nav2", "/link2"
       end
 
-      output_buffer.should have_tag('ul.nav.nav-tabs.nav-stacked') do |ul|
-        ul.should have_tag('li[@class="active"] a[@href="/link1"]')
-        ul.should have_tag('li a[@href="/link1"]')
+      expect(output_buffer).to have_tag('ul.nav.nav-tabs.nav-stacked') do |ul|
+        with_tag('li[@class="active"] a[@href="/link1"]')
+        with_tag('li a[@href="/link1"]')
       end
     end
 
@@ -64,9 +65,9 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::NavigationHelpers do
         nav.link_to "Nav2", "/link2", :active_nav => true
       end
 
-      output_buffer.should have_tag('ul.nav.nav-pills.nav-stacked') do |ul|
-        ul.should have_tag('li a[@href="/link1"]')
-        ul.should have_tag('li[@class="active"] a[@href="/link2"]')
+      expect(output_buffer).to have_tag('ul.nav.nav-pills.nav-stacked') do |ul|
+        with_tag('li a[@href="/link1"]')
+        with_tag('li[@class="active"] a[@href="/link2"]')
       end
     end
   end

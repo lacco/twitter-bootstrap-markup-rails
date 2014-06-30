@@ -4,24 +4,24 @@ require 'spec_helper'
 describe Twitter::Bootstrap::Markup::Rails::OptionsList do
   describe "#merge!" do
     it "should merge elements correctly" do
-      Twitter::Bootstrap::Markup::Rails::OptionsList.new("foo").merge!("bar").should == "foo bar"
+      expect(Twitter::Bootstrap::Markup::Rails::OptionsList.new("foo").merge!("bar")).to eq("foo bar")
     end
 
     it "should handle duplicated elements" do
-      Twitter::Bootstrap::Markup::Rails::OptionsList.new("foo").merge!("foo bar").should == "foo bar"
+      expect(Twitter::Bootstrap::Markup::Rails::OptionsList.new("foo").merge!("foo bar")).to eq("foo bar")
     end
 
     it "should be able to merge arrays" do
-      Twitter::Bootstrap::Markup::Rails::OptionsList.new("foo").merge!(["bar"]).should == "foo bar"
+      expect(Twitter::Bootstrap::Markup::Rails::OptionsList.new("foo").merge!(["bar"])).to eq("foo bar")
     end
 
     it "should handle nil" do
-      Twitter::Bootstrap::Markup::Rails::OptionsList.new("foo").merge!(nil).should == "foo"
+      expect(Twitter::Bootstrap::Markup::Rails::OptionsList.new("foo").merge!(nil)).to eq("foo")
     end
 
     it "should delete elements that are prefixed with -" do
-      Twitter::Bootstrap::Markup::Rails::OptionsList.new("foo bar").merge!("-foo").should == "bar"
-      Twitter::Bootstrap::Markup::Rails::OptionsList.new("foo bar").merge!(["-bar", "-foo", "blub"]).should == "blub"
+      expect(Twitter::Bootstrap::Markup::Rails::OptionsList.new("foo bar").merge!("-foo")).to eq("bar")
+      expect(Twitter::Bootstrap::Markup::Rails::OptionsList.new("foo bar").merge!(["-bar", "-foo", "blub"])).to eq("blub")
     end
   end
 end

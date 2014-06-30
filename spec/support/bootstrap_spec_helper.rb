@@ -10,7 +10,7 @@ end
 module BootstrapSpecHelper
   include ActionPack
   include ActionView::Context if defined?(ActionView::Context)
-  include ActionController::RecordIdentifier
+  include ActionController::RecordIdentifier if defined?(ActionController::RecordIdentifier)
   include ActionView::Helpers::FormHelper
   include ActionView::Helpers::FormTagHelper
   include ActionView::Helpers::FormOptionsHelper

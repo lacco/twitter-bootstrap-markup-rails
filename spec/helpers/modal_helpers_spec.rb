@@ -3,6 +3,7 @@ require 'spec_helper'
 
 describe Twitter::Bootstrap::Markup::Rails::Helpers::ModalHelpers do
   include BootstrapSpecHelper
+  include Twitter::Bootstrap::Markup::Rails::Helpers::ModalHelpers
   include BootstrapModalMacros
 
   describe "#bootstrap_modal" do
@@ -15,46 +16,46 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ModalHelpers do
         modal.footer do |footer|
           footer.content_tag :div, "the footer"
         end
-      end      
-    end
-    
-    it "should create a modal popup with header, body and footer" do
-      output_buffer.should have_tag('div.modal') do |div|
-        div.should have_tag('div.modal-header')
-        div.should have_tag('div.modal-body')
-        div.should have_tag('div.modal-footer')
       end
     end
-    
+
+    it "should create a modal popup with header, body and footer" do
+      expect(output_buffer).to have_tag('div.modal') do
+        with_tag('div.modal-header')
+        with_tag('div.modal-body')
+        with_tag('div.modal-footer')
+      end
+    end
+
     it "should create a modal popup with the given DOM ID" do
-      output_buffer.should have_tag('div.modal#an_id')
+      expect(output_buffer).to have_tag('div.modal#an_id')
     end
 
     it "should create a modal popup with the CSS class set if fade was passed" do
-      output_buffer.should have_tag('div.modal.fade#an_id')
+      expect(output_buffer).to have_tag('div.modal.fade#an_id')
     end
 
     it "should create a modal popup with the given header title" do
-      output_buffer.should have_tag('div.modal#an_id') do |div|
-        div.should have_tag("h3", :text => "a title")
+      expect(output_buffer).to have_tag('div.modal#an_id') do
+        with_tag("h3", :text => "a title")
       end
     end
-    
+
     it "should create a modal popup with the given body content placed" do
-      output_buffer.should have_tag('div.modal#an_id') do |div|
-        div.should have_tag("div.modal-body") do |body|
-          body.should have_tag("div", :text => "the body")
+      expect(output_buffer).to have_tag('div.modal#an_id') do
+        with_tag("div.modal-body") do
+          with_tag("div", :text => "the body")
         end
       end
     end
 
     it "should create a modal popup with the given footer content placed" do
-      output_buffer.should have_tag('div.modal#an_id') do |div|
-        div.should have_tag("div.modal-footer") do |body|
-          body.should have_tag("div", :text => "the footer")
+      expect(output_buffer).to have_tag('div.modal#an_id') do
+        with_tag("div.modal-footer") do
+          with_tag("div", :text => "the footer")
         end
       end
     end
-    
+
   end
 end

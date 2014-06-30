@@ -3,13 +3,18 @@ require 'spec_helper'
 
 describe Twitter::Bootstrap::Markup::Rails::Helpers::FormHelpers do
   include BootstrapSpecHelper
+  include Twitter::Bootstrap::Markup::Rails::Helpers::FormHelpers
   include BootstrapFormMacros
+
+  before do
+    @output_buffer = ''
+  end
 
   describe "#bootstrap_form_for" do
     it "should create a form tag" do
       block = Proc.new {}
       concat bootstrap_form_for 'an_object', :url => 'a_url', &block
-      output_buffer.should have_tag('form')
+      expect(output_buffer).to have_tag('form')
     end
 
     context "text_field" do
@@ -18,7 +23,7 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::FormHelpers do
           f.text_field 'method'
         end
 
-        output_buffer.should have_tag('div.control-group div.controls input[type=text]')
+        expect(output_buffer).to have_tag('div.control-group div.controls input[type=text]')
       end
 
       it "should add a label tag if :label is true" do
@@ -26,10 +31,10 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::FormHelpers do
           f.text_field 'method', :label => true
         end
 
-        output_buffer.should have_tag('div.control-group') do |div|
-          div.should have_tag('label.control-label')
-          div.should have_tag('div.controls') do |div|
-            div.should have_tag('input')
+        expect(output_buffer).to have_tag('div.control-group') do
+          with_tag('label.control-label')
+          with_tag('div.controls') do
+            with_tag('input')
           end
         end
       end
@@ -39,10 +44,10 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::FormHelpers do
           f.text_field 'method', :label_text => 'a custom label'
         end
 
-        output_buffer.should have_tag('div.control-group') do |div|
-          div.should have_tag('label.control-label', :text => 'a custom label')
-          div.should have_tag('div.controls') do |div|
-            div.should have_tag('input')
+        expect(output_buffer).to have_tag('div.control-group') do
+          with_tag('label.control-label', :text => 'a custom label')
+          with_tag('div.controls') do
+            with_tag('input')
           end
         end
       end
@@ -53,10 +58,10 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::FormHelpers do
             f.text_field 'method', :add_on => {}
           end
 
-          output_buffer.should have_tag('div.control-group') do |div|
-            div.should have_tag('div.controls') do |div|
-              div.should have_tag('div.input-prepend') do |div|
-                div.should have_tag('input')
+          expect(output_buffer).to have_tag('div.control-group') do
+            with_tag('div.controls') do
+              with_tag('div.input-prepend') do
+                with_tag('input')
               end
             end
           end
@@ -67,10 +72,10 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::FormHelpers do
             f.text_field 'method', :add_on => {:position => :append}
           end
 
-          output_buffer.should have_tag('div.control-group') do |div|
-            div.should have_tag('div.controls') do |div|
-              div.should have_tag('div.input-append') do |div|
-                div.should have_tag('input')
+          expect(output_buffer).to have_tag('div.control-group') do
+            with_tag('div.controls') do
+              with_tag('div.input-append') do
+                with_tag('input')
               end
             end
           end
@@ -81,11 +86,11 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::FormHelpers do
             f.text_field 'method', :add_on => {:text => 'a text'}
           end
 
-          output_buffer.should have_tag('div.control-group') do |div|
-            div.should have_tag('div.controls') do |div|
-              div.should have_tag('div.input-prepend') do |div|
-                div.should have_tag('input')
-                div.should have_tag('span', :class => 'add-on', :text => 'a text')
+          expect(output_buffer).to have_tag('div.control-group') do
+            with_tag('div.controls') do
+              with_tag('div.input-prepend') do
+                with_tag('input')
+                with_tag('span', :class => 'add-on', :text => 'a text')
               end
             end
           end
@@ -96,12 +101,12 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::FormHelpers do
             f.text_field 'method', :add_on => {:icon => 'icon-envelope'}
           end
 
-          output_buffer.should have_tag('div.control-group') do |div|
-            div.should have_tag('div.controls') do |div|
-              div.should have_tag('div.input-prepend') do |div|
-                div.should have_tag('input')
-                div.should have_tag('span', :class => 'add-on') do |span|
-                  span.should have_tag('i', :class => 'icon-envelope')
+          expect(output_buffer).to have_tag('div.control-group') do
+            with_tag('div.controls') do
+              with_tag('div.input-prepend') do
+                with_tag('input')
+                with_tag('span', :class => 'add-on') do
+                  with_tag('i', :class => 'icon-envelope')
                 end
               end
             end
@@ -113,9 +118,9 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::FormHelpers do
             f.text_field 'method', :help_text => 'You need help!'
           end
 
-          output_buffer.should have_tag('div.control-group') do |div|
-            div.should have_tag('div.controls') do |div|
-              div.should have_tag('p', :class => 'help-block', :text => 'You need help!')
+          expect(output_buffer).to have_tag('div.control-group') do
+            with_tag('div.controls') do
+              with_tag('p', :class => 'help-block', :text => 'You need help!')
             end
           end
         end
@@ -129,7 +134,7 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::FormHelpers do
           f.password_field 'method'
         end
 
-        output_buffer.should have_tag('div.control-group div.controls input[type=password]')
+        expect(output_buffer).to have_tag('div.control-group div.controls input[type=password]')
       end
     end
   end

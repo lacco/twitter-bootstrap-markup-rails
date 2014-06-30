@@ -4,7 +4,7 @@ require "twitter-bootstrap-markup-rails/plugins/simple_navigation/renderer/boots
 
 describe SimpleNavigation::Renderer::BootstrapTopbarList do
   it "registers the renderer" do
-    SimpleNavigation.registered_renderers.should include({
+    expect(SimpleNavigation.registered_renderers).to include({
       :bootstrap_topbar_list => SimpleNavigation::Renderer::BootstrapTopbarList
     })
   end
