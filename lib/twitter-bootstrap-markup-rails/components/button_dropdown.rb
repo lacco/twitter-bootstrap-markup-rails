@@ -13,7 +13,7 @@ module Twitter::Bootstrap::Markup::Rails::Components
         html << build_dropdown
 
         if build_dropdown_menu?
-          html << content_tag(:ul, options[:menu_html_options]) do
+          html << content_tag(:ul, options[:menu_html_options].merge(role: "menu")) do
             menu = ''
             @elements.each do |e|
               menu << content_tag(:li, e.to_s)
