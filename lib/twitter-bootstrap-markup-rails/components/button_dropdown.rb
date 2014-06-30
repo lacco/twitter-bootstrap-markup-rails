@@ -34,6 +34,7 @@ module Twitter::Bootstrap::Markup::Rails::Components
         :html_options => option({:class => option("btn-group")}),
         :split => false,
         :button_options => {},
+        :split_button_options => nil, # defaults to button_options
         :menu_html_options => option({:class => option("dropdown-menu")})
       })
     end
@@ -49,7 +50,7 @@ module Twitter::Bootstrap::Markup::Rails::Components
 
         if build_dropdown_menu?
           if build_split?
-            caret_btn = Button.new({:dropdown => true}.merge(options[:button_options]))
+            caret_btn = Button.new({:dropdown => true}.merge(options[:split_button_options].presence || options[:button_options]))
           else
             dropdown.options.merge!(:dropdown => true)
           end

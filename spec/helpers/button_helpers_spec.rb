@@ -163,6 +163,18 @@ describe Twitter::Bootstrap::Markup::Rails::Helpers::ButtonHelpers do
       end
     end
 
+    it "should pass split button options correctly" do
+      build_bootstrap_button_dropdown(:split => true, :button_options => {:type => "btn-success"}, :split_button_options => {:type => "btn-primary"}) do |d|
+        d.bootstrap_button "Button Text", "#", :class => "foo", :type => "btn-large"
+        d.link_to "This", "#"
+      end
+
+      expect(output_buffer).to have_tag('div.btn-group') do
+        with_tag('a.foo.btn-success.btn-large')
+        with_tag('a.dropdown-toggle.btn-primary')
+      end
+    end
+
     it "should properly merge menu_html_options" do
       build_bootstrap_button_dropdown(:menu_html_options => {:class => "pull-right"}) do |d|
         d.bootstrap_button "Button Text", "#", :class => "foo"
